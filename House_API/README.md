@@ -1,0 +1,1 @@
+This folder contains the House API implementation including creating houses, users, rooms and devices. It also includes a test file to test functions and a api request file to with an html file. This allows users to add users, create homes, etc.. 

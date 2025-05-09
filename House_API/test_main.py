@@ -4,7 +4,13 @@ import pytest
 
 client = TestClient(app)  # Create a test client for the API
 
-
+device = {
+            "device_id": "1",
+            "name": "Smart Light",
+            "room_id": "101",
+            "device_type": "light",
+            "status": "off"
+        }
 # Sample test user
 test_user = {
     "id": 80364748,
@@ -26,9 +32,9 @@ def test_get_user():
     
     # Ensure the user exists before fetching
     client.post("/users/", json=test_user)
-    response = client.get("/users/1")
+    response = client.get(f"/users/{test_user['id']}")
     assert response.status_code == 200
-    assert response.json()["id"] == 1
+    assert response.json()["id"] == test_user['id']
 
 
 # Test creating a house
@@ -51,10 +57,14 @@ def test_get_house():
     assert response.json()["house_id"] == "8"
 
 def test_create_device(): 
-        response = client.post("/devices/1")
+        
+        response = client.post("/devices/", json=device)
+
         assert response.status_code == 200
         assert response.json()["device_id"] == "1"
 def test_get_device():
+        client.post("/devices/", json=device)  # Create it first
         response = client.get("/devices/1")
+
         assert response.status_code == 200
         assert response.json()["device_id"] == "1"
